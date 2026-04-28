@@ -1251,8 +1251,14 @@ export enum ServoDirection {
         let port = getAnalogPin(pin)
         let rawValue = pins.analogReadPin(port)
 
-        let mappedValue = Math.map(rawValue, 0, 1023, 0, 100)
-        return Math.round(mappedValue)
+        // 先转为浮点数比例（0~1），再乘100得到0~100
+        let percent = (rawValue / 1023) * 100
+
+        // 限制在0~100范围内
+        if (percent > 100) percent = 100
+        if (percent < 0) percent = 0
+
+        return Math.round(percent)
     }
 
     //% blockId=Mosisture_Sensor block="Mosisture Sensor at %pin get value"
