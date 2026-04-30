@@ -97,7 +97,7 @@
     "Acebott.getRGBValue|block": "颜色传感器 获取 %channel 数值",
     "Acebott.Infraredobstacle|block": "红外障碍物接 %pin 获取数值",
     "Acebott.TiltSensor|block": "倾斜传感器接 %pin 获取数值",
-    "Acebott.rockerPin|block": "摇杆初始化引脚 |pinX %pinx|pinY %piny|pinB %pinb",
+    "Acebott.rockerPin|block": "摇杆初始化引脚 |SW %pinb |Y %piny |X %pinx",
     "Acebott._analogRead|block": "选择获取引脚 %selectpin",
     "Acebott._digitalRead|block": "摇杆是否按下",
     "Acebott.sensor_temperature|block": "获取LM35 %pin 的数值",   

@@ -18,7 +18,9 @@ enum _rockerpin {
     //% block="Xpin"
     Xpin = 0,
     //% block="Ypin"
-    Ypin = 1
+    Ypin = 1,
+    //% block="Button"
+    Button = 2
 }
 
 enum AnalogWritePin {
@@ -1347,7 +1349,7 @@ export enum ServoDirection {
     let Ypin = 0
     let Bpin = 0
 
-    //% blockId=rockerPin block="RockerPin setup | pinX %pinx|pinY %piny|pinB %pinb" 
+    //% blockId=rockerPin block="RockerPin setup |SW %pinb |Y %piny |X %pinx"
     //% weight=70
     //% group="Joystick Sensor"
     //% subcategory="Sensor"
@@ -1357,17 +1359,22 @@ export enum ServoDirection {
         Bpin = pinb
     }
 
-    //% blockId=_analogRead block="Select analog pin  %selectpin"
+    //% blockId=_analogRead block="Receive joystick %selectpin value"
     //% weight=69
     //% group="Joystick Sensor"
    //% subcategory="Sensor"
     export function _analogRead(selectpin: _rockerpin): number {
-        let a
-        if (selectpin == 0)
-            a = Xpin
-        else if (selectpin == 1)
-            a = Ypin
-        return pins.analogReadPin(a)
+        if (selectpin == _rockerpin.Xpin) {
+            return pins.analogReadPin(Xpin)
+        }
+        else if (selectpin == _rockerpin.Ypin) {
+            return pins.analogReadPin(Ypin)
+        }
+        else if (selectpin == _rockerpin.Button) {
+            // 按下=1，未按=0（统一成number）
+            return pins.digitalReadPin(Bpin) == 0 ? 1 : 0
+        }
+        return 0
     }
 
     //% blockId=_digitalRead block="Is the rocker module pressed?"
