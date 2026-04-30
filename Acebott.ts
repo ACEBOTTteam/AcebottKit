@@ -1211,6 +1211,26 @@ export enum ServoDirection {
         LCD1602_ShowString(x, y, s)
     }
 
+    //% blockNamespace="LCD1602"
+    export enum BacklightState {
+        //% block="on"
+        On = 1,
+        //% block="off"
+        Off = 0
+    }
+
+    //% blockId="LCD1602_Backlight" block="LCD1602 backlight %state"
+    //% subcategory="Display"
+    //% group="LCD1602 Modules"
+    export function LCD1602_Backlight(state: BacklightState): void {
+        if (state == BacklightState.On) {
+            BK = 8
+        } else {
+            BK = 0
+        }
+        setreg(BK)
+    }
+
     //% blockId="LCD1602_Init" block="LCD1602 initialization"
     //% subcategory="Display"
     //% group="LCD1602 Modules"
@@ -1313,12 +1333,14 @@ export enum ServoDirection {
         return Math.round(temp * 100) / 100;
     }
 
-    //% blockId=actuator_buzzer1 block="Actuator_buzzer1 pin %pin|freq %freq"
-    //% weight=70  buzzer
+    //% blockId=actuator_buzzer1 block="Actuator buzzer pin %pin|freq %freq|time(ms) %duration"
+    //% weight=70
     //% group="Buzzer Modules"
     //% subcategory="Executive"
-    export function actuator_buzzer1(pin: AnalogPin, freq: number): void {
+    export function actuator_buzzer1(pin: AnalogPin, freq: number, duration: number): void {
         pins.analogWritePin(pin, freq)
+        basic.pause(duration)
+        pins.analogWritePin(pin, 0)   // 关闭蜂鸣器
     }
 
     let Xpin = 0
@@ -1391,6 +1413,39 @@ export enum ServoDirection {
             pins.analogWritePin(pwmPin, -speed)
         }
     }
+
+    //% blockId=TT_Motor_OnOff block="TT Motor IN+ %in1|IN- %in2|state %state"
+    //% subcategory="Executive"
+    //% group="TT Motor Modules"
+    export function TT_Motor_OnOff(in1: DigitalPin, in2: DigitalPin, state: boolean): void {
+        if (state) {
+            pins.digitalWritePin(in1, 1)
+            pins.digitalWritePin(in2, 0)
+        } else {
+            pins.digitalWritePin(in1, 0)
+            pins.digitalWritePin(in2, 0)
+        }
+    }
+
+    //% blockId=TT_Motor_Speed block="TT Motor IN+ %in1|IN- %in2|speed %speed"
+    //% speed.min=-100 speed.max=100
+    //% subcategory="Executive"
+    //% group="TT Motor Modules"
+    export function TT_Motor_Speed(in1: AnalogPin, in2: AnalogPin, speed: number): void {
+        let pwm = Math.map(Math.abs(speed), 0, 100, 0, 1023)
+
+        if (speed > 0) {
+            pins.analogWritePin(in1, pwm)
+            pins.digitalWritePin(in2, 0)
+        } else if (speed < 0) {
+            pins.analogWritePin(in2, pwm)
+            pins.digitalWritePin(in1, 0)
+        } else {
+            pins.digitalWritePin(in1, 0)
+            pins.digitalWritePin(in2, 0)
+        }
+    }
+
     // 130 DC Motor @end
 
     // Ultrasonic Sensor @start
