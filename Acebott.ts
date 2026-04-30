@@ -1353,10 +1353,12 @@ export enum ServoDirection {
     //% weight=70
     //% group="Joystick Sensor"
     //% subcategory="Sensor"
-    export function rockerPin(pinx: AnalogPin, piny: AnalogPin, pinb: DigitalPin): void {
+    export function rockerPin(pinb: DigitalPin, piny: AnalogPin, pinx: AnalogPin): void {
         Xpin = pinx
         Ypin = piny
         Bpin = pinb
+
+        pins.setPull(Bpin, PinPullMode.PullUp) // ⭐关键
     }
 
     //% blockId=_analogRead block="Receive joystick %selectpin value"
