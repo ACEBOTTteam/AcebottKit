@@ -1363,30 +1363,29 @@ export enum ServoDirection {
         //% block="Eighth"
         Eighth = 2
     }
-
-    let beatTime = 500
-
+    
     //% blockId=actuator_buzzer2 block="set beat time %ms ms"
     //% group="Buzzer Modules"
     //% subcategory="Executive"
     export function actuator_buzzer2(ms: number): void {
-        beatTime = ms
+
+        let bpm = 60000 / ms
+        music.setTempo(bpm)
+
     }
 
-    //% blockId=actuator_buzzer3 block="play buzzer pin %pin note %note beat %beat"
+    //% block="play buzzer pin %pin note %note beat %beat"
     //% group="Buzzer Modules"
     //% subcategory="Executive"
+
     export function actuator_buzzer3(
         pin: AnalogPin,
         note: MusicNote,
-        beat: MusicBeat
+        beat: BeatFraction
     ): void {
 
-        let duration = beatTime * beat / 16
-
-        pins.analogWritePin(pin, note)
-        basic.pause(duration)
-        pins.analogWritePin(pin, 0)
+        pins.analogSetPitchPin(pin)
+        music.playTone(note, music.beat(beat))
     }
     //% blockId=actuator_buzzer1 block="Actuator buzzer pin %pin|freq %freq|time(ms) %duration"
     //% weight=70
