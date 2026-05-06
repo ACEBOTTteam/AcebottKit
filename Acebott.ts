@@ -1335,6 +1335,59 @@ export enum ServoDirection {
         return Math.round(temp * 100) / 100;
     }
 
+    export enum MusicNote {
+        C4 = 262,
+        D4 = 294,
+        E4 = 330,
+        F4 = 349,
+        G4 = 392,
+        A4 = 440,
+        B4 = 494,
+        C5 = 523,
+        D5 = 587,
+        E5 = 659,
+        F5 = 698,
+        G5 = 784,
+        A5 = 880,
+        B5 = 988
+    }
+    export enum MusicBeat {
+        //% block="Double"
+        Double = 32,
+        //% block="Whole"
+        Whole = 16,
+        //% block="Half"
+        Half = 8,
+        //% block="Quarter"
+        Quarter = 4,
+        //% block="Eighth"
+        Eighth = 2
+    }
+
+    let beatTime = 500
+
+    //% blockId=actuator_buzzer2 block="set beat time %ms ms"
+    //% group="Buzzer Modules"
+    //% subcategory="Executive"
+    export function actuator_buzzer2(ms: number): void {
+        beatTime = ms
+    }
+
+    //% blockId=actuator_buzzer3 block="play buzzer pin %pin note %note beat %beat"
+    //% group="Buzzer Modules"
+    //% subcategory="Executive"
+    export function actuator_buzzer3(
+        pin: AnalogPin,
+        note: MusicNote,
+        beat: MusicBeat
+    ): void {
+
+        let duration = beatTime * beat / 16
+
+        pins.analogWritePin(pin, note)
+        basic.pause(duration)
+        pins.analogWritePin(pin, 0)
+    }
     //% blockId=actuator_buzzer1 block="Actuator buzzer pin %pin|freq %freq|time(ms) %duration"
     //% weight=70
     //% group="Buzzer Modules"
