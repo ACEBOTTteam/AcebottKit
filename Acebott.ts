@@ -1273,10 +1273,10 @@ export enum ServoDirection {
         let port = getAnalogPin(pin)
         let rawValue = pins.analogReadPin(port)
 
-        // 先转为浮点数比例（0~1），再乘100得到0~100
-        let percent = (rawValue / 1023) * 100
+        // 反转亮暗关系
+        let percent = 100 - (rawValue / 1023) * 100
 
-        // 限制在0~100范围内
+        // 限制范围
         if (percent > 100) percent = 100
         if (percent < 0) percent = 0
 
