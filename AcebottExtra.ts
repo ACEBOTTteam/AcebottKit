@@ -2,13 +2,13 @@
 // 使用 micro:bit core 的 WS2812 发送接口，无需另加灯带依赖。
 namespace Acebott {
     export enum MP3Action {
-        //% block="播放/继续"
+        //% block="Resume playback"
         Play = 0x11,
-        //% block="暂停"
+        //% block="Pause playback"
         Pause = 0x12,
-        //% block="下一曲"
+        //% block="Next track"
         Next = 0x13,
-        //% block="上一曲"
+        //% block="Previous track"
         Previous = 0x14
     }
 
@@ -31,8 +31,8 @@ namespace Acebott {
         return extraStrips[pin]
     }
 
-    /** 可选设置该引脚的灯珠总数并熄灭灯带；后续显示沿用此数量。未调用时默认 30 颗。 */
-    //% blockId=acebott_ws2812_init block="WS2812 灯带引脚 %pin|初始数量 %count"
+    /** Set the LED count for this pin and turn off the strip. Later calls keep this count; the default is 30. */
+    //% blockId=acebott_ws2812_init block="WS2812 strip pin %pin|initial count %count"
     //% subcategory="Display" group="WS2812 Modules" weight=90
     //% inlineInputMode=inline
     //% pin.defl=DigitalWritePin.P0 count.defl=30 count.min=1 count.max=300
@@ -47,8 +47,8 @@ namespace Acebott {
         extraSendStrip(pin, extraStrips[pin])
     }
 
-    /** 使用颜色选择器设置灯带；0 控制当前总数的全部灯珠，默认 30 颗。超出总数的灯号忽略，选择黑色即熄灭。 */
-    //% blockId=acebott_ws2812_color block="WS2812 灯带引脚 %pin|灯号 %position|颜色 %color"
+    /** Set the strip color. LED 0 selects all LEDs, using a default count of 30. Out-of-range LED numbers are ignored; black turns LEDs off. */
+    //% blockId=acebott_ws2812_color block="WS2812 strip pin %pin|LED %position|color %color"
     //% subcategory="Display" group="WS2812 Modules" weight=89
     //% inlineInputMode=inline
     //% pin.defl=DigitalWritePin.P0 position.defl=0 position.min=0 position.max=300
@@ -57,8 +57,8 @@ namespace Acebott {
         WS2812_RGB(pin, position, (color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff)
     }
 
-    /** 按当前设置的总数显示，默认 30 颗；0 控制全部，1、2、3…控制对应灯珠，保留其他颜色。RGB 全为 0 即熄灭。 */
-    //% blockId=acebott_ws2812_rgb block="WS2812 Pin %pin|灯号 %position|R %r|G %g|B %b"
+    /** Set the strip RGB color using the configured count, defaulting to 30. LED 0 selects all LEDs; 1, 2, 3 and so on select individual LEDs and preserve the other colors. RGB values of 0 turn LEDs off. */
+    //% blockId=acebott_ws2812_rgb block="WS2812 strip pin %pin|LED %position|R %r|G %g|B %b"
     //% subcategory="Display" group="WS2812 Modules" weight=88
     //% inlineInputMode=inline
     //% pin.defl=DigitalWritePin.P0 position.defl=0 position.min=0 position.max=300
@@ -132,8 +132,8 @@ namespace Acebott {
         }
     }
 
-    /** 初始化 IIC 数码管，亮度 0～7，默认 2。 */
-    //% blockId=acebott_tube4_init block="4位数码管 IIC 初始化|亮度 %brightness"
+    /** Initialize the IIC display with brightness from 0 to 7, defaulting to 2. */
+    //% blockId=acebott_tube4_init block="4-digit tube IIC initialize|brightness %brightness"
     //% blockHidden=true
     //% subcategory="Display" group="4-Digit Tube IIC Modules" weight=80
     //% brightness.defl=2 brightness.min=0 brightness.max=7
@@ -143,8 +143,8 @@ namespace Acebott {
         Tube4_Clear()
     }
 
-    /** 最多显示 4 个字符，小数点附着在前一个字符上，右对齐。超长显示 ----。 */
-    //% blockId=acebott_tube4_string block="四位数码管 IIC 显示字符串 %text"
+    /** Show up to four characters, right aligned. A decimal point attaches to the previous character. Longer strings display ----. */
+    //% blockId=acebott_tube4_string block="4-digit tube IIC show string %text"
     //% subcategory="Display" group="4-Digit Tube IIC Modules" weight=79
     //% text.defl="Hi"
     export function Tube4_ShowString(text: string): void {
@@ -174,8 +174,8 @@ namespace Acebott {
         extraTubeWriteDigits()
     }
 
-    /** 显示整数或浮点数，首次调用自动初始化；小数按四位显示容量四舍五入。超出 -999～9999 显示 ----。 */
-    //% blockId=acebott_tube4_number block="四位数码管 IIC 显示数字 %value"
+    /** Show an integer or decimal number, initializing automatically on first use. Decimals are rounded to fit four display positions. Values outside -999 to 9999 display ----. */
+    //% blockId=acebott_tube4_number block="4-digit tube IIC show number %value"
     //% subcategory="Display" group="4-Digit Tube IIC Modules" weight=78
     //% value.defl=100 value.shadow=math_number
     export function Tube4_ShowNumber(value: number): void {
@@ -199,7 +199,7 @@ namespace Acebott {
         Tube4_ShowString("----")
     }
 
-    //% blockId=acebott_tube4_brightness block="4位数码管 IIC 设置亮度 %brightness"
+    //% blockId=acebott_tube4_brightness block="4-digit tube IIC set brightness %brightness"
     //% blockHidden=true
     //% subcategory="Display" group="4-Digit Tube IIC Modules" weight=77
     //% brightness.defl=2 brightness.min=0 brightness.max=7
@@ -208,7 +208,7 @@ namespace Acebott {
         extraTubeWriteControl()
     }
 
-    //% blockId=acebott_tube4_clear block="4位数码管 IIC 清屏"
+    //% blockId=acebott_tube4_clear block="4-digit tube IIC clear"
     //% blockHidden=true
     //% subcategory="Display" group="4-Digit Tube IIC Modules" weight=76
     export function Tube4_Clear(): void {
@@ -216,8 +216,8 @@ namespace Acebott {
         extraTubeWriteDigits()
     }
 
-    /** 位号 1～4，从左到右；立即设置小数点。 */
-    //% blockId=acebott_tube4_dot block="4位数码管 IIC 第 %position 位小数点 %state"
+    /** Set a decimal point immediately. Digit positions 1 to 4 run from left to right. */
+    //% blockId=acebott_tube4_dot block="4-digit tube IIC digit %position decimal point %state"
     //% blockHidden=true
     //% subcategory="Display" group="4-Digit Tube IIC Modules" weight=75
     //% position.defl=2 position.min=1 position.max=4 state.defl=SwitchStatus.ON
@@ -229,7 +229,7 @@ namespace Acebott {
         extraTubeWriteDigits()
     }
 
-    //% blockId=acebott_tube4_display block="4位数码管 IIC 显示 %state"
+    //% blockId=acebott_tube4_display block="4-digit tube IIC display %state"
     //% blockHidden=true
     //% subcategory="Display" group="4-Digit Tube IIC Modules" weight=74
     //% state.defl=SwitchStatus.ON
@@ -256,8 +256,8 @@ namespace Acebott {
         basic.pause(100)
     }
 
-    /** TX、RX 均指 micro:bit 端引脚。TX 接模块 RX，RX 接模块 TX。 */
-    //% blockId=acebott_mp3_init block="MP3初始化|TX 引脚 %tx|RX 引脚 %rx"
+    /** TX and RX are micro:bit pins. Connect TX to the module RX, and RX to the module TX. */
+    //% blockId=acebott_mp3_init block="MP3 initialize|TX pin %tx|RX pin %rx"
     //% subcategory="Executive" group="MP3 Modules" weight=70
     //% tx.defl=UARTPin.P8 rx.defl=UARTPin.P1
     export function MP3_Init(tx: UARTPin, rx: UARTPin): void {
@@ -272,15 +272,15 @@ namespace Acebott {
         extraMP3Send(action, [])
     }
 
-    //% blockId=acebott_mp3_volume block="MP3 设置音量 %volume"
+    //% blockId=acebott_mp3_volume block="MP3 set volume %volume"
     //% subcategory="Executive" group="MP3 Modules" weight=68
     //% volume.defl=20 volume.min=0 volume.max=30
     export function MP3_Volume(volume: number): void {
         extraMP3Send(0x31, [extraClamp(volume, 0, 30)])
     }
 
-    /** 与参考库 playInFolder(M) 一致，发送 0x41 + 16 位曲目编号。 */
-    //% blockId=acebott_mp3_track block="MP3 播放指定曲目 %track"
+    /** Send command 0x41 with a 16-bit track number, matching playInFolder(M) in the reference library. */
+    //% blockId=acebott_mp3_track block="MP3 play track %track"
     //% subcategory="Executive" group="MP3 Modules" weight=67
     //% track.defl=1 track.min=1 track.max=65535
     export function MP3_PlayTrack(track: number): void {
@@ -288,16 +288,16 @@ namespace Acebott {
         extraMP3Send(0x41, [(track >> 8) & 0xff, track & 0xff])
     }
 
-    /** 参考 ACB_Ultraviolet.read("analogValue")，读取原始模拟值；micro:bit 返回 0～1023。 */
-    //% blockId=acebott_uv_analog block="紫外线V3传感器引脚 %pin|获取模拟值"
+    /** Read the raw analog value from the Ultraviolet V3 sensor, matching ACB_Ultraviolet.read("analogValue"). micro:bit returns 0 to 1023. */
+    //% blockId=acebott_uv_analog block="Ultraviolet V3 sensor pin %pin|get analog value"
     //% subcategory="Sensor" group="Ultraviolet Sensor" weight=70
     //% inlineInputMode=inline pin.defl=AnalogReadPin.P0
     export function Ultraviolet_Read(pin: AnalogReadPin): number {
         return pins.analogReadPin((100 + pin) as AnalogPin)
     }
 
-    /** 对应 ACB_Ultraviolet.read("level")，返回 0～11；将 micro:bit 的 0～1023 采样按比例换算到参考库的 0～4095。 */
-    //% blockId=acebott_uv_level block="紫外线V3传感器引脚 %pin|获取等级"
+    /** Read a level from 0 to 11, matching ACB_Ultraviolet.read("level"). Scale the micro:bit ADC range of 0 to 1023 to the reference range of 0 to 4095. */
+    //% blockId=acebott_uv_level block="Ultraviolet V3 sensor pin %pin|get level"
     //% subcategory="Sensor" group="Ultraviolet Sensor" weight=69
     //% inlineInputMode=inline pin.defl=AnalogReadPin.P0
     export function Ultraviolet_Level(pin: AnalogReadPin): number {
