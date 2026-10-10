@@ -1,5 +1,6 @@
 // 给 ACEBOTTteam/AcebottKit 添加 WS2812、IIC 四位数码管、串口 MP3 和紫外线采集积木。
 // 使用 micro:bit core 的 WS2812 发送接口，无需另加灯带依赖。
+//% groups='["LED Modules","LED Matrix Modules","RGB LED Modules","4-Digit Tube IIC Modules","LCD1602 Modules","Laser Modules","OLED12864-1.3inch Modules","WS2812 Modules","4-Digit Tube Modules"]'
 namespace Acebott {
     export enum MP3Action {
         //% block="Resume playback"
