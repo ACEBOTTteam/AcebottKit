@@ -163,7 +163,7 @@
     "Acebott.Tube4_Clear|block": "四位数码管 IIC 清屏",
     "Acebott.Tube4_Dot|block": "四位数码管 IIC 第 %position 位小数点 %state",
     "Acebott.Tube4_Display|block": "四位数码管 IIC 显示 %state",
-    "Acebott.MP3_Init|block": "MP3初始化|TX 引脚 %tx|RX 引脚 %rx",
+    "Acebott.MP3_Init|block": "MP3初始化|RX 引脚 %tx|TX 引脚 %rx",
     "Acebott.MP3_Control|block": "MP3 %action",
     "Acebott.MP3_Volume|block": "MP3 设置音量 %volume",
     "Acebott.MP3_PlayTrack|block": "MP3 播放第 %track 首",
