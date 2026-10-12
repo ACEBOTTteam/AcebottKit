@@ -1,5 +1,3 @@
-// 给 ACEBOTTteam/AcebottKit 添加 WS2812、IIC 四位数码管、串口 MP3 和紫外线采集积木。
-// 使用 micro:bit core 的 WS2812 发送接口，无需另加灯带依赖。
 //% groups='["LED Modules","LED Matrix Modules","RGB LED Modules","4-Digit Tube IIC Modules","LCD1602 Modules","Laser Modules","OLED12864-1.3inch Modules","WS2812 Modules","4-Digit Tube Modules"]'
 namespace Acebott {
     export enum MP3Pin {
@@ -274,7 +272,6 @@ namespace Acebott {
         extraTubeWriteControl()
     }
 
-    // MP3 沿用 ACB_MP3.cpp：7E、长度、命令、数据、XOR 校验、EF。
     function extraMP3Send(command: number, data: number[]): void {
         let length = data.length + 3
         let packet = pins.createBuffer(length + 2)
