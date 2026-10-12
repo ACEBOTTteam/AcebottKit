@@ -2,6 +2,62 @@
 // 使用 micro:bit core 的 WS2812 发送接口，无需另加灯带依赖。
 //% groups='["LED Modules","LED Matrix Modules","RGB LED Modules","4-Digit Tube IIC Modules","LCD1602 Modules","Laser Modules","OLED12864-1.3inch Modules","WS2812 Modules","4-Digit Tube Modules"]'
 namespace Acebott {
+    export enum MP3TxPin {
+        //% block="P0（TX）"
+        P0 = 0,
+        //% block="P1"
+        P1 = 1,
+        //% block="P2"
+        P2 = 2,
+        //% block="P8"
+        P8 = 8,
+        //% block="P12"
+        P12 = 12,
+        //% block="P13(SCK)"
+        P13 = 13,
+        //% block="P14(MISO)"
+        P14 = 14,
+        //% block="P15(MOSI)"
+        P15 = 15,
+        //% block="P16"
+        P16 = 16
+    }
+
+    export enum MP3RxPin {
+        //% block="P0"
+        P0 = 0,
+        //% block="P1（RX）"
+        P1 = 1,
+        //% block="P2"
+        P2 = 2,
+        //% block="P8"
+        P8 = 8,
+        //% block="P12"
+        P12 = 12,
+        //% block="P13(SCK)"
+        P13 = 13,
+        //% block="P14(MISO)"
+        P14 = 14,
+        //% block="P15(MOSI)"
+        P15 = 15,
+        //% block="P16"
+        P16 = 16
+    }
+
+    //% blockId=acebott_mp3_tx_pin block="%pin"
+    //% blockHidden=true shim=TD_ID
+    //% pin.defl=Acebott.MP3TxPin.P0
+    export function _MP3TxPin(pin: MP3TxPin): number {
+        return pin
+    }
+
+    //% blockId=acebott_mp3_rx_pin block="%pin"
+    //% blockHidden=true shim=TD_ID
+    //% pin.defl=Acebott.MP3RxPin.P1
+    export function _MP3RxPin(pin: MP3RxPin): number {
+        return pin
+    }
+
     export enum MP3Action {
         //% block="Resume playback"
         Play = 0x11,
@@ -260,8 +316,9 @@ namespace Acebott {
     /** TX and RX are micro:bit pins. Connect TX to the module RX, and RX to the module TX. */
     //% blockId=acebott_mp3_init block="MP3 initialize|TX pin %tx|RX pin %rx"
     //% subcategory="Executive" group="MP3 Modules" weight=70
-    //% tx.defl=UARTPin.P8 rx.defl=UARTPin.P1
-    export function MP3_Init(tx: UARTPin, rx: UARTPin): void {
+    //% tx.shadow=acebott_mp3_tx_pin rx.shadow=acebott_mp3_rx_pin
+    //% tx.defl=Acebott.MP3TxPin.P0 rx.defl=Acebott.MP3RxPin.P1
+    export function MP3_Init(tx: number, rx: number): void {
         serial.redirect((100 + tx) as SerialPin, (100 + rx) as SerialPin, BaudRate.BaudRate9600)
         basic.pause(1000)
     }
